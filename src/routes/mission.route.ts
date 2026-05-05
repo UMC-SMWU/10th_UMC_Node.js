@@ -1,11 +1,9 @@
-import { Router } from 'express';
+import express from 'express';
 import * as missionController from '../controller/mission.controller';
 
-const router = Router();
+const router = express.Router();
 
-router.post(
-  '/home/missions/:missionId/challenge',
-  missionController.challengeMission
-);
+// 특정 가게의 미션 목록
+router.get('/stores/:storeId/missions', missionController.getMissionsByStoreId);
 
 export default router;

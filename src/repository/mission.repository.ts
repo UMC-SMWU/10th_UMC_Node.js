@@ -1,12 +1,19 @@
-const missions = [
-  {
-    id: 1,
-    storeId: 1,
-    title: '리뷰 작성하기',
-    reward: 500,
-  },
-];
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 export const findMissionById = async (missionId: number) => {
-  return missions.find((mission) => mission.id === missionId) || null;
+  return await prisma.mission.findFirst({
+    where: {
+      id: missionId,
+    },
+  });
+};
+
+export const findMissionsByStoreId = async (storeId: number) => {
+  return await prisma.mission.findMany({
+    where: {
+      storeId,
+    },
+  });
 };

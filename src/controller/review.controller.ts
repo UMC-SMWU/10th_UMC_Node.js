@@ -1,19 +1,23 @@
-import { Request, Response } from 'express';
-import * as reviewService from '../service/review.service';
+import { CreateReviewDto } from '../dto/review.dto';
+import * as storeRepository from '../repository/store.repository';
+import * as reviewRepository from '../repository/review.repository';
 
-export const createReview = async (req: Request, res: Response) => {
-  try {
-    const result = await reviewService.createReview(req.body);
+// ⭐ 리뷰 생성
+export const createReview = async (data: CreateReviewDto) => {
+  const userId = 1;
 
-    res.status(201).json({
-      success: true,
-      message: '리뷰가 작성되었습니다.',
-      data: result,
-    });
-  } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: (error as Error).message,
-    });
+  const store = await storeRepository.findStoreById(data.storeId);
+
+  if (!store) {
+    throw new Error('리뷰를 작성하려는 가게가 존재하지 않습니다.');
   }
+
+  return await reviewRepository.createReview(userId, data);
+};
+
+// ⭐ 내가 작성한 리뷰 목록
+export const getMyReviews = async () => {
+  const userId = 1;
+
+  return await reviewRepository.findReviewsByUserId(userId);
 };
