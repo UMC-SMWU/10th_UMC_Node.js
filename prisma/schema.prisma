@@ -18,10 +18,11 @@ model User {
   phoneNumber   String   @map("phone_number") @db.VarChar(15)
 
   userFavorCategories UserFavorCategory[]
-  reviews             UserStoreReview[]   // ← 추가
-
-
+  reviews             UserStoreReview[]
+  myReviews           Review[]
+  userMissions        UserMission[]
   @@map("user")
+
 }
 
 model FoodCategory {
@@ -49,7 +50,9 @@ model Store {
   id      Int               @id @default(autoincrement())
   name    String            @db.VarChar(100)
   reviews UserStoreReview[]
-
+  myReviews Review[]
+  missions Mission[]
+  
   @@map("store")
 }
 
@@ -62,4 +65,42 @@ model UserStoreReview {
   user    User   @relation(fields: [userId], references: [id])
 
   @@map("user_store_review")
+}
+
+model Review {
+  id           Int        @id @default(autoincrement())
+  userId       Int        @map("user_id")
+  restaurantId Int        @map("restaurant_id")
+  body         String     @db.Text
+  score        Float
+  createdAt    DateTime   @default(now()) @map("created_at")
+  user         User       @relation(fields: [userId], references: [id])
+  restaurant   Store      @relation(fields: [restaurantId], references: [id])
+
+  @@map("review")
+}
+
+model Mission {
+  id           Int           @id @default(autoincrement())
+  restaurantId Int           @map("restaurant_id")
+  name         String        @db.VarChar(100)
+  introduction String        @db.Text
+  deadline     DateTime
+  points       Int
+  restaurant   Store         @relation(fields: [restaurantId], references: [id])
+  userMissions UserMission[]
+
+  @@map("mission")
+}
+
+model UserMission {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @map("user_id")
+  missionId Int      @map("mission_id")
+  status    String   @default("진행중") @db.VarChar(20)
+  createdAt DateTime @default(now()) @map("created_at")
+  user      User     @relation(fields: [userId], references: [id])
+  mission   Mission  @relation(fields: [missionId], references: [id])
+
+  @@map("user_mission")
 }
