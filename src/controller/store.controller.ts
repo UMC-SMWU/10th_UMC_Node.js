@@ -1,17 +1,30 @@
-import { CreateStoreDto } from '../dto/store.dto';
-import * as regionRepository from '../repository/region.repository';
-import * as storeRepository from '../repository/store.repository';
+import { Request, Response } from 'express';
+
+import { createStore as createStoreService } from '../service/store.service';
 
 // ⭐ 가게 생성
 export const createStore = async (
-  regionId: number,
-  data: CreateStoreDto
+  req: Request,
+  res: Response
 ) => {
-  const region = await regionRepository.findRegionById(regionId);
+  try {
+    const regionId = Number(req.params.regionId);
 
-  if (!region) {
-    throw new Error('존재하지 않는 지역입니다.');
+    const result = await createStoreService(
+      regionId,
+      req.body
+    );
+
+    return res.status(201).json({
+      message: '가게 생성 성공',
+      data: result,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message:
+        error instanceof Error
+          ? error.message
+          : '가게 생성 실패',
+    });
   }
-
-  return await storeRepository.createStore(regionId, data);
 };

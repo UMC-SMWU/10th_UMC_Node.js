@@ -4,7 +4,7 @@ import { CreateStoreDto } from '../dto/store.dto';
 const prisma = new PrismaClient();
 
 export const findStoreById = async (storeId: number) => {
-  return await prisma.store.findFirst({
+  return await prisma.store.findUnique({
     where: {
       id: storeId,
     },

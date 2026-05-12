@@ -1,23 +1,50 @@
-import { CreateReviewDto } from '../dto/review.dto';
-import * as storeRepository from '../repository/store.repository';
-import * as reviewRepository from '../repository/review.repository';
+import { Request, Response } from 'express';
+
+import {
+  createReview,
+  getMyReviews,
+} from '../service/review.service';
 
 // ⭐ 리뷰 생성
-export const createReview = async (data: CreateReviewDto) => {
-  const userId = 1;
+export const createReviewController = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const result = await createReview(req.body);
 
-  const store = await storeRepository.findStoreById(data.storeId);
-
-  if (!store) {
-    throw new Error('리뷰를 작성하려는 가게가 존재하지 않습니다.');
+    return res.status(201).json({
+      message: '리뷰 생성 성공',
+      data: result,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message:
+        error instanceof Error
+          ? error.message
+          : '리뷰 생성 실패',
+    });
   }
-
-  return await reviewRepository.createReview(userId, data);
 };
 
 // ⭐ 내가 작성한 리뷰 목록
-export const getMyReviews = async () => {
-  const userId = 1;
+export const getMyReviewsController = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const reviews = await getMyReviews();
 
-  return await reviewRepository.findReviewsByUserId(userId);
+    return res.status(200).json({
+      message: '내 리뷰 목록 조회 성공',
+      data: reviews,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message:
+        error instanceof Error
+          ? error.message
+          : '내 리뷰 목록 조회 실패',
+    });
+  }
 };

@@ -15,7 +15,10 @@ export const findChallengingMission = async (
   });
 };
 
-export const createUserMission = async (userId: number, missionId: number) => {
+export const createUserMission = async (
+  userId: number,
+  missionId: number
+) => {
   const newUserMission = await prisma.userMission.create({
     data: {
       userId,
@@ -27,7 +30,9 @@ export const createUserMission = async (userId: number, missionId: number) => {
   return newUserMission;
 };
 
-export const findUserMissionInProgress = async (userId: number) => {
+export const findUserMissionInProgress = async (
+  userId: number
+) => {
   return await prisma.userMission.findMany({
     where: {
       userId,
