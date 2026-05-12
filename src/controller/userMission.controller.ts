@@ -17,11 +17,15 @@ export const challengeMissionController = async (
     const result = await challengeMission(missionId);
 
     return res.status(201).json({
+      isSuccess: true,
+      code: 'COMMON201',
       message: '미션 도전 성공',
-      data: result,
+      result: result,
     });
   } catch (error) {
     return res.status(400).json({
+      isSuccess: false,
+      code: 'COMMON400',
       message:
         error instanceof Error
           ? error.message
@@ -38,11 +42,15 @@ export const getMyInProgressMissionsController =
         await getMyInProgressMissions();
 
       return res.status(200).json({
+        isSuccess: true,
+        code: 'COMMON200',
         message: '진행 중 미션 목록 조회 성공',
-        data: missions,
+        result: missions,
       });
     } catch (error) {
       return res.status(400).json({
+        isSuccess: false,
+        code: 'COMMON400',
         message:
           error instanceof Error
             ? error.message
@@ -62,11 +70,15 @@ export const completeMissionController = async (
     const result = await completeMission(missionId);
 
     return res.status(200).json({
+      isSuccess: true,
+      code: 'COMMON200',
       message: '미션 완료 처리 성공',
-      data: result,
+      result: result,
     });
   } catch (error) {
     return res.status(400).json({
+      isSuccess: false,
+      code: 'COMMON400',
       message:
         error instanceof Error
           ? error.message

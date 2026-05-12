@@ -16,11 +16,15 @@ export const createStore = async (
     );
 
     return res.status(201).json({
+      isSuccess: true,
+      code: 'COMMON201',
       message: '가게 생성 성공',
-      data: result,
+      result: result,
     });
   } catch (error) {
     return res.status(400).json({
+      isSuccess: false,
+      code: 'COMMON400',
       message:
         error instanceof Error
           ? error.message

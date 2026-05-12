@@ -1,38 +1,32 @@
-import {
-  findMissionById,
-  findMissionsByStoreId,
-} from '../repository/mission.repository';
+import { Request, Response } from 'express';
 
-import {
-  findChallengingMission,
-  createUserMission,
-} from '../repository/userMission.repository';
-
-// ⭐ 미션 도전
-export const challengeMission = async (
-  missionId: number
-) => {
-  const userId = 1;
-
-  const mission = await findMissionById(missionId);
-
-  if (!mission) {
-    throw new Error('존재하지 않는 미션입니다.');
-  }
-
-  const alreadyChallenging =
-    await findChallengingMission(userId, missionId);
-
-  if (alreadyChallenging) {
-    throw new Error('이미 도전 중인 미션입니다.');
-  }
-
-  return await createUserMission(userId, missionId);
-};
+import { getMissionsByStoreId } from '../service/mission.service';
 
 // ⭐ 특정 가게의 미션 목록
-export const getMissionsByStoreId = async (
-  storeId: number
+export const getMissionsByStoreIdController = async (
+  req: Request,
+  res: Response
 ) => {
-  return await findMissionsByStoreId(storeId);
+  try {
+    const storeId = Number(req.params.storeId);
+
+    const missions =
+      await getMissionsByStoreId(storeId);
+
+    return res.status(200).json({
+      isSuccess: true,
+      code: 'COMMON200',
+      message: '가게 미션 목록 조회 성공',
+      result: missions,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      isSuccess: false,
+      code: 'COMMON400',
+      message:
+        error instanceof Error
+          ? error.message
+          : '가게 미션 목록 조회 실패',
+    });
+  }
 };

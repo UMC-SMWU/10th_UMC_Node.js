@@ -14,11 +14,15 @@ export const createReviewController = async (
     const result = await createReview(req.body);
 
     return res.status(201).json({
+      isSuccess: true,
+      code: 'COMMON201',
       message: '리뷰 생성 성공',
-      data: result,
+      result: result,
     });
   } catch (error) {
     return res.status(400).json({
+      isSuccess: false,
+      code: 'COMMON400',
       message:
         error instanceof Error
           ? error.message
@@ -36,11 +40,15 @@ export const getMyReviewsController = async (
     const reviews = await getMyReviews();
 
     return res.status(200).json({
+      isSuccess: true,
+      code: 'COMMON200',
       message: '내 리뷰 목록 조회 성공',
-      data: reviews,
+      result: reviews,
     });
   } catch (error) {
     return res.status(400).json({
+      isSuccess: false,
+      code: 'COMMON400',
       message:
         error instanceof Error
           ? error.message
