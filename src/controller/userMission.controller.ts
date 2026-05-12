@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 
+import { CustomError } from '../errors/customError';
+
 import {
   challengeMission,
   getMyInProgressMissions,
@@ -23,41 +25,56 @@ export const challengeMissionController = async (
       result: result,
     });
   } catch (error) {
-    return res.status(400).json({
+    if (error instanceof CustomError) {
+      return res.status(error.statusCode).json({
+        isSuccess: false,
+        code: error.code,
+        message: error.message,
+        result: null,
+      });
+    }
+
+    return res.status(500).json({
       isSuccess: false,
-      code: 'COMMON400',
-      message:
-        error instanceof Error
-          ? error.message
-          : '미션 도전 실패',
+      code: 'COMMON500',
+      message: '서버 에러가 발생했습니다.',
+      result: null,
     });
   }
 };
 
 // ⭐ 진행 중 미션 목록
-export const getMyInProgressMissionsController =
-  async (req: Request, res: Response) => {
-    try {
-      const missions =
-        await getMyInProgressMissions();
+export const getMyInProgressMissionsController = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const missions = await getMyInProgressMissions();
 
-      return res.status(200).json({
-        isSuccess: true,
-        code: 'COMMON200',
-        message: '진행 중 미션 목록 조회 성공',
-        result: missions,
-      });
-    } catch (error) {
-      return res.status(400).json({
+    return res.status(200).json({
+      isSuccess: true,
+      code: 'COMMON200',
+      message: '진행 중 미션 목록 조회 성공',
+      result: missions,
+    });
+  } catch (error) {
+    if (error instanceof CustomError) {
+      return res.status(error.statusCode).json({
         isSuccess: false,
-        code: 'COMMON400',
-        message:
-          error instanceof Error
-            ? error.message
-            : '진행 중 미션 목록 조회 실패',
+        code: error.code,
+        message: error.message,
+        result: null,
       });
     }
-  };
+
+    return res.status(500).json({
+      isSuccess: false,
+      code: 'COMMON500',
+      message: '서버 에러가 발생했습니다.',
+      result: null,
+    });
+  }
+};
 
 // ⭐ 미션 완료 처리
 export const completeMissionController = async (
@@ -76,13 +93,20 @@ export const completeMissionController = async (
       result: result,
     });
   } catch (error) {
-    return res.status(400).json({
+    if (error instanceof CustomError) {
+      return res.status(error.statusCode).json({
+        isSuccess: false,
+        code: error.code,
+        message: error.message,
+        result: null,
+      });
+    }
+
+    return res.status(500).json({
       isSuccess: false,
-      code: 'COMMON400',
-      message:
-        error instanceof Error
-          ? error.message
-          : '미션 완료 처리 실패',
+      code: 'COMMON500',
+      message: '서버 에러가 발생했습니다.',
+      result: null,
     });
   }
 };

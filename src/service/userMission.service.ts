@@ -1,3 +1,5 @@
+import { CustomError } from '../errors/customError';
+
 import { findUserById } from '../repository/user.repository';
 import { findMissionById } from '../repository/mission.repository';
 
@@ -17,20 +19,32 @@ export const challengeMission = async (
   const user = await findUserById(userId);
 
   if (!user) {
-    throw new Error('존재하지 않는 사용자입니다.');
+    throw new CustomError(
+      404,
+      'USER_NOT_FOUND',
+      '존재하지 않는 사용자입니다.'
+    );
   }
 
   const mission = await findMissionById(missionId);
 
   if (!mission) {
-    throw new Error('존재하지 않는 미션입니다.');
+    throw new CustomError(
+      404,
+      'MISSION_NOT_FOUND',
+      '존재하지 않는 미션입니다.'
+    );
   }
 
   const alreadyChallenging =
     await findChallengingMission(userId, missionId);
 
   if (alreadyChallenging) {
-    throw new Error('이미 도전 중인 미션입니다.');
+    throw new CustomError(
+      409,
+      'MISSION_ALREADY_CHALLENGING',
+      '이미 도전 중인 미션입니다.'
+    );
   }
 
   return await createUserMission(userId, missionId);
@@ -43,7 +57,11 @@ export const getMyInProgressMissions = async () => {
   const user = await findUserById(userId);
 
   if (!user) {
-    throw new Error('존재하지 않는 사용자입니다.');
+    throw new CustomError(
+      404,
+      'USER_NOT_FOUND',
+      '존재하지 않는 사용자입니다.'
+    );
   }
 
   return await findUserMissionInProgress(userId);
@@ -58,7 +76,11 @@ export const completeMission = async (
   const user = await findUserById(userId);
 
   if (!user) {
-    throw new Error('존재하지 않는 사용자입니다.');
+    throw new CustomError(
+      404,
+      'USER_NOT_FOUND',
+      '존재하지 않는 사용자입니다.'
+    );
   }
 
   const result = await updateUserMissionToComplete(
@@ -67,7 +89,11 @@ export const completeMission = async (
   );
 
   if (result.count === 0) {
-    throw new Error('완료할 수 있는 미션이 없습니다.');
+    throw new CustomError(
+      400,
+      'MISSION_CANNOT_COMPLETE',
+      '완료할 수 있는 미션이 없습니다.'
+    );
   }
 
   return result;

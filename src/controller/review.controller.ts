@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 
+import { CustomError } from '../errors/customError';
 import {
   createReview,
   getMyReviews,
@@ -20,13 +21,20 @@ export const createReviewController = async (
       result: result,
     });
   } catch (error) {
-    return res.status(400).json({
+    if (error instanceof CustomError) {
+      return res.status(error.statusCode).json({
+        isSuccess: false,
+        code: error.code,
+        message: error.message,
+        result: null,
+      });
+    }
+
+    return res.status(500).json({
       isSuccess: false,
-      code: 'COMMON400',
-      message:
-        error instanceof Error
-          ? error.message
-          : '리뷰 생성 실패',
+      code: 'COMMON500',
+      message: '서버 에러가 발생했습니다.',
+      result: null,
     });
   }
 };
@@ -46,13 +54,20 @@ export const getMyReviewsController = async (
       result: reviews,
     });
   } catch (error) {
-    return res.status(400).json({
+    if (error instanceof CustomError) {
+      return res.status(error.statusCode).json({
+        isSuccess: false,
+        code: error.code,
+        message: error.message,
+        result: null,
+      });
+    }
+
+    return res.status(500).json({
       isSuccess: false,
-      code: 'COMMON400',
-      message:
-        error instanceof Error
-          ? error.message
-          : '내 리뷰 목록 조회 실패',
+      code: 'COMMON500',
+      message: '서버 에러가 발생했습니다.',
+      result: null,
     });
   }
 };

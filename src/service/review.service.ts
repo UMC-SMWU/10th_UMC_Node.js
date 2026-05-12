@@ -1,4 +1,5 @@
 import { CreateReviewDto } from '../dto/review.dto';
+import { CustomError } from '../errors/customError';
 
 import { findUserById } from '../repository/user.repository';
 import { findStoreById } from '../repository/store.repository';
@@ -17,13 +18,19 @@ export const createReview = async (
   const user = await findUserById(userId);
 
   if (!user) {
-    throw new Error('존재하지 않는 사용자입니다.');
+    throw new CustomError(
+      404,
+      'USER_NOT_FOUND',
+      '존재하지 않는 사용자입니다.'
+    );
   }
 
   const store = await findStoreById(data.storeId);
 
   if (!store) {
-    throw new Error(
+    throw new CustomError(
+      404,
+      'STORE_NOT_FOUND',
       '리뷰를 작성하려는 가게가 존재하지 않습니다.'
     );
   }
@@ -38,7 +45,11 @@ export const getMyReviews = async () => {
   const user = await findUserById(userId);
 
   if (!user) {
-    throw new Error('존재하지 않는 사용자입니다.');
+    throw new CustomError(
+      404,
+      'USER_NOT_FOUND',
+      '존재하지 않는 사용자입니다.'
+    );
   }
 
   return await findReviewsByUserId(userId);
