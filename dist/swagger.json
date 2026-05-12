@@ -1,0 +1,317 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"ChallengeMissionResponseDto": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"missionId": {
+						"type": "number",
+						"format": "double"
+					},
+					"status": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"userId",
+					"missionId",
+					"status"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"InProgressMissionResponseDto": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"missionId": {
+						"type": "number",
+						"format": "double"
+					},
+					"status": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"userId",
+					"missionId",
+					"status"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CompleteMissionResponseDto": {
+				"properties": {
+					"count": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"count"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "umc_10",
+		"version": "1.0.0",
+		"description": "UMC 10기 Node.js 실습 레포입니다.",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/missions/{missionId}/challenge": {
+			"post": {
+				"operationId": "ChallengeMissionController",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"result": {
+													"$ref": "#/components/schemas/ChallengeMissionResponseDto"
+												},
+												"message": {
+													"type": "string"
+												},
+												"code": {
+													"type": "string"
+												},
+												"isSuccess": {
+													"type": "boolean"
+												}
+											},
+											"required": [
+												"result",
+												"message",
+												"code",
+												"isSuccess"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"result": {},
+												"message": {
+													"type": "string"
+												},
+												"code": {
+													"type": "string"
+												},
+												"isSuccess": {
+													"type": "boolean"
+												}
+											},
+											"required": [
+												"message",
+												"code",
+												"isSuccess"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"UserMissions"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "missionId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/missions/me/in-progress": {
+			"get": {
+				"operationId": "GetMyInProgressMissionsController",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"result": {
+													"items": {
+														"$ref": "#/components/schemas/InProgressMissionResponseDto"
+													},
+													"type": "array"
+												},
+												"message": {
+													"type": "string"
+												},
+												"code": {
+													"type": "string"
+												},
+												"isSuccess": {
+													"type": "boolean"
+												}
+											},
+											"required": [
+												"result",
+												"message",
+												"code",
+												"isSuccess"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"result": {},
+												"message": {
+													"type": "string"
+												},
+												"code": {
+													"type": "string"
+												},
+												"isSuccess": {
+													"type": "boolean"
+												}
+											},
+											"required": [
+												"message",
+												"code",
+												"isSuccess"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"UserMissions"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/missions/{missionId}/complete": {
+			"patch": {
+				"operationId": "CompleteMissionController",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"result": {
+													"$ref": "#/components/schemas/CompleteMissionResponseDto"
+												},
+												"message": {
+													"type": "string"
+												},
+												"code": {
+													"type": "string"
+												},
+												"isSuccess": {
+													"type": "boolean"
+												}
+											},
+											"required": [
+												"result",
+												"message",
+												"code",
+												"isSuccess"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"result": {},
+												"message": {
+													"type": "string"
+												},
+												"code": {
+													"type": "string"
+												},
+												"isSuccess": {
+													"type": "boolean"
+												}
+											},
+											"required": [
+												"message",
+												"code",
+												"isSuccess"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"UserMissions"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "missionId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}

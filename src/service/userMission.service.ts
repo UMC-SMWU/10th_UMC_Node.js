@@ -8,10 +8,16 @@ import {
   updateUserMissionToComplete,
 } from '../repository/userMission.repository';
 
-// ⭐ 미션 도전
+import {
+  ChallengeMissionResponseDto,
+  InProgressMissionResponseDto,
+  CompleteMissionResponseDto,
+} from '../dto/userMission.dto';
+
+// 미션 도전
 export const challengeMission = async (
   missionId: number
-) => {
+): Promise<ChallengeMissionResponseDto> => {
   const userId = 1;
 
   const user = await findUserById(userId);
@@ -36,8 +42,10 @@ export const challengeMission = async (
   return await createUserMission(userId, missionId);
 };
 
-// ⭐ 내가 진행 중인 미션 목록
-export const getMyInProgressMissions = async () => {
+// 내가 진행 중인 미션 목록
+export const getMyInProgressMissions = async (): Promise<
+  InProgressMissionResponseDto[]
+> => {
   const userId = 1;
 
   const user = await findUserById(userId);
@@ -49,10 +57,10 @@ export const getMyInProgressMissions = async () => {
   return await findUserMissionInProgress(userId);
 };
 
-// ⭐ 미션 완료 처리
+// 미션 완료 처리
 export const completeMission = async (
   missionId: number
-) => {
+): Promise<CompleteMissionResponseDto> => {
   const userId = 1;
 
   const user = await findUserById(userId);
