@@ -12,5 +12,6 @@ export const errorResponse = (code: number, message: string) => {
     isSuccess: false,
     code,
     message,
+    result: null,
   };
 };
