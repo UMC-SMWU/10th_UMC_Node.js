@@ -2,17 +2,15 @@ import { prisma } from "../../../db.config.js";
 
 const PAGE_SIZE = 10;
 
-export const addUser = async (data: any) => {
-  const user = await prisma.user.findUnique({
+export const findUserByEmail = async (email: string) => {
+  return await prisma.user.findUnique({
     where: {
-      email: data.email,
+      email,
     },
   });
+};
 
-  if (user) {
-    return null;
-  }
-
+export const addUser = async (data: any) => {
   const created = await prisma.user.create({
     data: {
       email: data.email,
@@ -29,7 +27,7 @@ export const addUser = async (data: any) => {
 };
 
 export const getUser = async (userId: number) => {
-  return await prisma.user.findUniqueOrThrow({
+  return await prisma.user.findUnique({
     where: {
       id: userId,
     },
