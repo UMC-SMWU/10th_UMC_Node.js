@@ -1,4 +1,3 @@
-import { StatusCodes } from "http-status-codes";
 import {
   responseFromReviews,
   responseFromMissions,
@@ -9,13 +8,13 @@ import {
   getStoreById,
   getStoreMissions,
 } from "../repositories/store.repository.js";
-import { CustomError } from "../../../common/errors/customError.js";
+import { StoreNotFoundError } from "../../../common/errors/customError.js";
 
 const validateStoreExists = async (storeId: number) => {
   const store = await getStoreById(storeId);
 
   if (!store) {
-    throw new CustomError(StatusCodes.NOT_FOUND, "존재하지 않는 가게입니다.");
+    throw new StoreNotFoundError();
   }
 
   return store;
