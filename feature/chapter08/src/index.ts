@@ -1,56 +1,58 @@
 import dotenv from "dotenv";
-import express, { Express, Request, Response, NextFunction } from "express";
+import express, { Express, Request, Response } from "express";
 import cors from "cors";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
-import swaggerUi from "swagger-ui-express";
-import { ValidateError } from "tsoa";
 
-import swaggerDocument from "./generated/swagger.json" assert { type: "json" };
-import { RegisterRoutes } from "./generated/routes.js";
-import { CustomError } from "./common/errors.js";
-import { errorResponse } from "./common/response.js";
+import {
+  handleUserSignUp,
+  handleListMyReviews,
+  handleListMyProgressMissions,
+} from "./modules/users/controllers/user.controller.js";
+import {
+  handleListStoreReviews,
+  handleListStoreMissions,
+} from "./modules/stores/controllers/store.controller.js";
+import { handleCompleteMission } from "./modules/missions/controllers/mission.controller.js";
+import { errorHandler } from "./common/middlewares/errorHandler.js";
 
+// 1. 환경 변수 설정
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
 
+// 2. 미들웨어 설정
 app.use(cors());
 app.use(morgan("dev"));
 app.use(cookieParser());
+app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
+// 3. 기본 라우트
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World! This is TypeScript Server!");
 });
 
-RegisterRoutes(app);
+// 4. API 라우트
+app.post("/api/v1/users/signup", handleUserSignUp);
 
-app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
-  if (err instanceof ValidateError) {
-    return res.status(400).json(
-      errorResponse(400, "요청 값이 올바르지 않습니다.", err.fields)
-    );
-  }
+app.get("/api/v1/stores/:storeId/reviews", handleListStoreReviews);
+app.get("/api/v1/stores/:storeId/missions", handleListStoreMissions);
 
-  if (err instanceof CustomError) {
-    return res.status(err.statusCode).json(
-      errorResponse(err.statusCode, err.message)
-    );
-  }
+app.get("/api/v1/users/:userId/reviews", handleListMyReviews);
+app.get("/api/v1/users/:userId/missions/progress", handleListMyProgressMissions);
 
-  console.error(err);
+app.patch(
+  "/api/v1/users/:userId/missions/:userMissionId/complete",
+  handleCompleteMission
+);
 
-  return res.status(500).json(
-    errorResponse(500, "서버 오류가 발생했습니다.")
-  );
-});
+// 5. 에러 처리 미들웨어는 모든 라우트 아래에 둔다.
+app.use(errorHandler);
 
+// 6. 서버 시작
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
-  console.log(`[swagger]: Swagger docs are available at http://localhost:${port}/docs`);
 });
