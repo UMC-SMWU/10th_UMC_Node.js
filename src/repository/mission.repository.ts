@@ -1,4 +1,6 @@
-import { PrismaClient } from "../../generated/prisma";
+// mission.repository.ts
+
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 

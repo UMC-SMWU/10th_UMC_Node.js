@@ -1,5 +1,6 @@
+// review.repository.ts
+
 import { PrismaClient } from "@prisma/client";
-import { CreateReviewDto } from "../dto/review.dto";
 
 const prisma = new PrismaClient();
 
