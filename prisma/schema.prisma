@@ -5,7 +5,7 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  output   = "../src/generated"  // 👈 점 두개 뒤에 꼭 슬래시(/)를 넣어주세요!
 }
 
 datasource db {

@@ -1,5 +1,5 @@
-import { PrismaClient } from '@prisma/client';
-import { CreateStoreDto } from '../dto/store.dto';
+import { PrismaClient } from "@prisma/client";
+import { CreateStoreDto } from "../dto/store.dto";
 
 const prisma = new PrismaClient();
 
@@ -17,7 +17,7 @@ export const createStore = async (regionId: number, data: CreateStoreDto) => {
       regionId,
       name: data.name,
       address: data.address,
-      category: data.category ?? '',
+      category: data.category ?? "",
     },
   });
 

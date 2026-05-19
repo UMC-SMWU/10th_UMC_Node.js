@@ -1,8 +1,10 @@
-import express from 'express';
-import reviewRouter from './routes/review.route';
-import storeRouter from './routes/store.route';
-import missionRouter from './routes/mission.route';
-import userMissionRouter from './routes/userMission.route';
+import express from "express";
+import reviewRouter from "./routes/review.route";
+import storeRouter from "./routes/store.route";
+import missionRouter from "./routes/mission.route";
+import userMissionRouter from "./routes/userMission.route";
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "./swagger/swagger.json";
 
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
@@ -19,12 +21,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // 라우터 등록
-app.use('/api', reviewRouter);
-app.use('/api', storeRouter);
-app.use('/api', missionRouter);
-app.use('/api', userMissionRouter);
+app.use("/api", reviewRouter);
+app.use("/api", storeRouter);
+app.use("/api", missionRouter);
+app.use("/api", userMissionRouter);
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.listen(3000, () => {
-  console.log('Server is running on port 3000');
+  console.log("Server is running on port 3000");
 });
-
