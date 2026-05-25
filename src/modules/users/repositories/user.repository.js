@@ -1,3 +1,3 @@
-export const selectUser = () => {
-  return { id: 1, name: 'user' }
+export const selectUser = (user) => {
+  return user
 }
