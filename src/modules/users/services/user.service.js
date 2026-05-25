@@ -1,3 +1,3 @@
-export const findUser = () => {
-  return { id: 1, name: 'user' }
+export const findUser = (user) => {
+  return user
 }

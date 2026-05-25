@@ -21,7 +21,7 @@ import {
   ApiResponse,
   success,
 } from "../../../common/responses/response";
-import { authorizeUser } from "../../../common/middlewares/auth.middleware";
+import { isLogin } from "../../../common/middlewares/auth.middleware";
 
 @Route("users")
 @Tags("Users")
@@ -74,16 +74,19 @@ export class UserController extends Controller {
 
   /**
    * 마이페이지 API
-   * @summary 로그인 쿠키가 있는 사용자의 마이페이지를 반환합니다.
+   * @summary JWT 인증된 사용자의 마이페이지를 반환합니다.
    */
   @Get("mypage")
-  @Middlewares(authorizeUser())
+  @Middlewares(isLogin)
   @TsoaResponse<string>(200, "마이페이지 조회 성공")
   @TsoaResponse<null>(401, "로그인이 필요합니다")
   public async handleMypage(@Request() req: ExpressRequest): Promise<string> {
+    const loginUser = req.user as { name?: string; email?: string };
+    const displayName = loginUser.name ?? loginUser.email ?? "사용자";
+
     return `
       <h1>마이페이지</h1>
-      <p>환영합니다, ${req.cookies.username}님!</p>
+      <p>환영합니다, ${displayName}님!</p>
       <p>이 페이지는 로그인한 사람만 볼 수 있습니다.</p>
     `;
   }
@@ -94,10 +97,8 @@ export class UserController extends Controller {
    */
   @Get("set-login")
   @TsoaResponse<string>(200, "로그인 쿠키 생성 성공")
-  public async handleSetLogin(@Request() req: ExpressRequest): Promise<string> {
-    req.res!.cookie("username", "UMC10th", { maxAge: 3600000 });
-
-    return '로그인 쿠키(username=UMC10th) 생성 완료! <a href="/api/v1/users/mypage">마이페이지로 이동</a>';
+  public async handleSetLogin(): Promise<string> {
+    return 'JWT 로그인은 <a href="/oauth2/login/google">Google 로그인</a>으로 진행해주세요.';
   }
 
   /**
@@ -105,12 +106,10 @@ export class UserController extends Controller {
    * @summary 로그인 쿠키를 확인한 뒤 로그아웃 처리를 수행합니다.
    */
   @Get("set-logout")
-  @Middlewares(authorizeUser())
+  @Middlewares(isLogin)
   @TsoaResponse<string>(200, "로그아웃 성공")
   @TsoaResponse<null>(401, "로그인이 필요합니다")
-  public async handleSetLogout(@Request() req: ExpressRequest): Promise<string> {
-    req.res!.clearCookie("username");
-
-    return '로그아웃 완료 (쿠키 삭제). <a href="/api/v1/users/guest">메인으로</a>';
+  public async handleSetLogout(): Promise<string> {
+    return "JWT 로그아웃은 클라이언트에서 토큰을 삭제하면 완료됩니다.";
   }
 }

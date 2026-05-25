@@ -3,6 +3,8 @@ import { prisma } from "../../../db.config";
 import {
   UserSignUpRequest,
   UserSignUpResponse,
+  UserMeResponse,
+  UserUpdateMeRequest,
 } from "../dtos/user.dto";
 
 export const userSignUp = async (
@@ -35,5 +37,47 @@ export const userSignUp = async (
     email: user.email,
     name: user.name,
     preferences: (data.preferences ?? []).map(String),
+  };
+};
+
+export const updateMyProfile = async (
+  userId: number,
+  data: UserUpdateMeRequest,
+): Promise<UserMeResponse> => {
+  const updateData: {
+    name?: string;
+    nickname?: string | null;
+    gender?: string;
+    birth?: Date;
+    address?: string;
+    detailAddress?: string | null;
+    phoneNumber?: string;
+  } = {};
+
+  if (data.name !== undefined) updateData.name = data.name;
+  if (data.nickname !== undefined) updateData.nickname = data.nickname;
+  if (data.gender !== undefined) updateData.gender = data.gender;
+  if (data.birth !== undefined) updateData.birth = new Date(data.birth);
+  if (data.address !== undefined) updateData.address = data.address;
+  if (data.detailAddress !== undefined) {
+    updateData.detailAddress = data.detailAddress;
+  }
+  if (data.phoneNumber !== undefined) updateData.phoneNumber = data.phoneNumber;
+
+  const user = await prisma.user.update({
+    where: { id: userId },
+    data: updateData,
+  });
+
+  return {
+    id: user.id,
+    email: user.email,
+    name: user.name,
+    nickname: user.nickname,
+    gender: user.gender,
+    birth: user.birth,
+    address: user.address,
+    detailAddress: user.detailAddress,
+    phoneNumber: user.phoneNumber,
   };
 };
