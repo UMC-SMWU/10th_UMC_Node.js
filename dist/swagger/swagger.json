@@ -1,0 +1,371 @@
+{
+    "openapi": "3.0.0",
+    "components": {
+        "examples": {},
+        "headers": {},
+        "parameters": {},
+        "requestBodies": {},
+        "responses": {},
+        "schemas": {},
+        "securitySchemes": {}
+    },
+    "info": {
+        "title": "umc_10",
+        "version": "1.0.0",
+        "description": "UMC 10기 Node.js 실습 레포입니다.",
+        "license": {
+            "name": "ISC"
+        },
+        "contact": {}
+    },
+    "paths": {
+        "/missions/{missionId}/challenge": {
+            "post": {
+                "operationId": "ChallengeMissionController",
+                "responses": {
+                    "201": {
+                        "description": "미션 도전 성공",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {},
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "code": {
+                                            "type": "string"
+                                        },
+                                        "isSuccess": {
+                                            "type": "boolean"
+                                        }
+                                    },
+                                    "required": [
+                                        "result",
+                                        "message",
+                                        "code",
+                                        "isSuccess"
+                                    ],
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "미션 도전 API",
+                "tags": [
+                    "UserMission"
+                ],
+                "security": [],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "missionId",
+                        "required": true,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    }
+                ]
+            }
+        },
+        "/missions/my/in-progress": {
+            "get": {
+                "operationId": "GetMyInProgressMissionsController",
+                "responses": {
+                    "200": {
+                        "description": "진행 중 미션 목록 조회 성공",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {},
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "code": {
+                                            "type": "string"
+                                        },
+                                        "isSuccess": {
+                                            "type": "boolean"
+                                        }
+                                    },
+                                    "required": [
+                                        "result",
+                                        "message",
+                                        "code",
+                                        "isSuccess"
+                                    ],
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "진행 중 미션 목록 조회 API",
+                "tags": [
+                    "UserMission"
+                ],
+                "security": [],
+                "parameters": []
+            }
+        },
+        "/missions/{missionId}/complete": {
+            "patch": {
+                "operationId": "CompleteMissionController",
+                "responses": {
+                    "200": {
+                        "description": "미션 완료 처리 성공",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {},
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "code": {
+                                            "type": "string"
+                                        },
+                                        "isSuccess": {
+                                            "type": "boolean"
+                                        }
+                                    },
+                                    "required": [
+                                        "result",
+                                        "message",
+                                        "code",
+                                        "isSuccess"
+                                    ],
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "미션 완료 처리 API",
+                "tags": [
+                    "UserMission"
+                ],
+                "security": [],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "missionId",
+                        "required": true,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    }
+                ]
+            }
+        },
+        "/regions/{regionId}/stores": {
+            "post": {
+                "operationId": "CreateStore",
+                "responses": {
+                    "201": {
+                        "description": "가게 생성 성공",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {},
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "code": {
+                                            "type": "string"
+                                        },
+                                        "isSuccess": {
+                                            "type": "boolean"
+                                        }
+                                    },
+                                    "required": [
+                                        "result",
+                                        "message",
+                                        "code",
+                                        "isSuccess"
+                                    ],
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "가게 생성 API",
+                "tags": [
+                    "Store"
+                ],
+                "security": [],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "regionId",
+                        "required": true,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/reviews": {
+            "post": {
+                "operationId": "CreateReviewController",
+                "responses": {
+                    "201": {
+                        "description": "리뷰 생성 성공",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {},
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "code": {
+                                            "type": "string"
+                                        },
+                                        "isSuccess": {
+                                            "type": "boolean"
+                                        }
+                                    },
+                                    "required": [
+                                        "result",
+                                        "message",
+                                        "code",
+                                        "isSuccess"
+                                    ],
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "리뷰 생성 API",
+                "tags": [
+                    "Review"
+                ],
+                "security": [],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/reviews/my": {
+            "get": {
+                "operationId": "GetMyReviewsController",
+                "responses": {
+                    "200": {
+                        "description": "내 리뷰 목록 조회 성공",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {},
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "code": {
+                                            "type": "string"
+                                        },
+                                        "isSuccess": {
+                                            "type": "boolean"
+                                        }
+                                    },
+                                    "required": [
+                                        "result",
+                                        "message",
+                                        "code",
+                                        "isSuccess"
+                                    ],
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "내가 작성한 리뷰 목록 조회 API",
+                "tags": [
+                    "Review"
+                ],
+                "security": [],
+                "parameters": []
+            }
+        },
+        "/stores/{storeId}/missions": {
+            "get": {
+                "operationId": "GetMissionsByStoreIdController",
+                "responses": {
+                    "200": {
+                        "description": "가게 미션 목록 조회 성공",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {},
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "code": {
+                                            "type": "string"
+                                        },
+                                        "isSuccess": {
+                                            "type": "boolean"
+                                        }
+                                    },
+                                    "required": [
+                                        "result",
+                                        "message",
+                                        "code",
+                                        "isSuccess"
+                                    ],
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "특정 가게의 미션 목록 조회 API",
+                "tags": [
+                    "Mission"
+                ],
+                "security": [],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "storeId",
+                        "required": true,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "servers": [
+        {
+            "url": "/"
+        }
+    ]
+}

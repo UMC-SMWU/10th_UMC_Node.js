@@ -1,6 +1,7 @@
 // store.repository.ts
 
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from ".prisma/client";
+import { CreateStoreDto } from "../dto/store.dto";
 
 const prisma = new PrismaClient();
 

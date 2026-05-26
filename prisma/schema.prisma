@@ -6,3 +6,51 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id           Int           @id @default(autoincrement())
+  reviews      Review[]
+  userMissions UserMission[]
+}
+
+model Region {
+  id     Int     @id @default(autoincrement())
+  stores Store[]
+}
+
+model Store {
+  id       Int       @id @default(autoincrement())
+  regionId Int
+  name     String
+  address  String
+  category String
+  region   Region    @relation(fields: [regionId], references: [id])
+  missions Mission[]
+  reviews  Review[]
+}
+
+model Mission {
+  id           Int           @id @default(autoincrement())
+  storeId      Int
+  store        Store         @relation(fields: [storeId], references: [id])
+  userMissions UserMission[]
+}
+
+model Review {
+  id      Int    @id @default(autoincrement())
+  userId  Int
+  storeId Int
+  content String
+  score   Int
+  user    User   @relation(fields: [userId], references: [id])
+  store   Store  @relation(fields: [storeId], references: [id])
+}
+
+model UserMission {
+  id        Int    @id @default(autoincrement())
+  userId    Int
+  missionId Int
+  status    String
+  user      User   @relation(fields: [userId], references: [id])
+  mission   Mission @relation(fields: [missionId], references: [id])
+}
