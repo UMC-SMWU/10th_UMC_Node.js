@@ -15,8 +15,7 @@ const user_repository_1 = require("../repository/user.repository");
 const mission_repository_1 = require("../repository/mission.repository");
 const userMission_repository_1 = require("../repository/userMission.repository");
 // ⭐ 미션 도전
-const challengeMission = (missionId) => __awaiter(void 0, void 0, void 0, function* () {
-    const userId = 1;
+const challengeMission = (userId, missionId) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield (0, user_repository_1.findUserById)(userId);
     if (!user) {
         throw new customError_1.CustomError(404, 'USER_NOT_FOUND', '존재하지 않는 사용자입니다.');
@@ -33,8 +32,7 @@ const challengeMission = (missionId) => __awaiter(void 0, void 0, void 0, functi
 });
 exports.challengeMission = challengeMission;
 // ⭐ 내가 진행 중인 미션 목록
-const getMyInProgressMissions = () => __awaiter(void 0, void 0, void 0, function* () {
-    const userId = 1;
+const getMyInProgressMissions = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield (0, user_repository_1.findUserById)(userId);
     if (!user) {
         throw new customError_1.CustomError(404, 'USER_NOT_FOUND', '존재하지 않는 사용자입니다.');
@@ -43,8 +41,7 @@ const getMyInProgressMissions = () => __awaiter(void 0, void 0, void 0, function
 });
 exports.getMyInProgressMissions = getMyInProgressMissions;
 // ⭐ 미션 완료 처리
-const completeMission = (missionId) => __awaiter(void 0, void 0, void 0, function* () {
-    const userId = 1;
+const completeMission = (userId, missionId) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield (0, user_repository_1.findUserById)(userId);
     if (!user) {
         throw new customError_1.CustomError(404, 'USER_NOT_FOUND', '존재하지 않는 사용자입니다.');

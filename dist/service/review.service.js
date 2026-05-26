@@ -15,8 +15,7 @@ const user_repository_1 = require("../repository/user.repository");
 const store_repository_1 = require("../repository/store.repository");
 const review_repository_1 = require("../repository/review.repository");
 // ⭐ 리뷰 생성
-const createReview = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    const userId = 1;
+const createReview = (userId, data) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield (0, user_repository_1.findUserById)(userId);
     if (!user) {
         throw new customError_1.CustomError(404, 'USER_NOT_FOUND', '존재하지 않는 사용자입니다.');
@@ -29,8 +28,7 @@ const createReview = (data) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.createReview = createReview;
 // ⭐ 내가 작성한 리뷰 목록
-const getMyReviews = () => __awaiter(void 0, void 0, void 0, function* () {
-    const userId = 1;
+const getMyReviews = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield (0, user_repository_1.findUserById)(userId);
     if (!user) {
         throw new customError_1.CustomError(404, 'USER_NOT_FOUND', '존재하지 않는 사용자입니다.');

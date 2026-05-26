@@ -6,7 +6,36 @@
 		"parameters": {},
 		"requestBodies": {},
 		"responses": {},
-		"schemas": {},
+		"schemas": {
+			"Prisma.BatchPayload": {
+				"properties": {
+					"count": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"count"
+				],
+				"type": "object",
+				"description": "Batch Payload for updateMany & deleteMany & createMany"
+			},
+			"UpdateMyInfoDto": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"phone": {
+						"type": "string"
+					},
+					"birth": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
 		"securitySchemes": {}
 	},
 	"info": {
@@ -29,7 +58,32 @@
 							"application/json": {
 								"schema": {
 									"properties": {
-										"result": {},
+										"result": {
+											"properties": {
+												"missionId": {
+													"type": "number",
+													"format": "double"
+												},
+												"userId": {
+													"type": "number",
+													"format": "double"
+												},
+												"id": {
+													"type": "number",
+													"format": "double"
+												},
+												"status": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"missionId",
+												"userId",
+												"id",
+												"status"
+											],
+											"type": "object"
+										},
 										"message": {
 											"type": "string"
 										},
@@ -80,7 +134,35 @@
 							"application/json": {
 								"schema": {
 									"properties": {
-										"result": {},
+										"result": {
+											"items": {
+												"properties": {
+													"missionId": {
+														"type": "number",
+														"format": "double"
+													},
+													"userId": {
+														"type": "number",
+														"format": "double"
+													},
+													"id": {
+														"type": "number",
+														"format": "double"
+													},
+													"status": {
+														"type": "string"
+													}
+												},
+												"required": [
+													"missionId",
+													"userId",
+													"id",
+													"status"
+												],
+												"type": "object"
+											},
+											"type": "array"
+										},
 										"message": {
 											"type": "string"
 										},
@@ -121,7 +203,9 @@
 							"application/json": {
 								"schema": {
 									"properties": {
-										"result": {},
+										"result": {
+											"$ref": "#/components/schemas/Prisma.BatchPayload"
+										},
 										"message": {
 											"type": "string"
 										},
@@ -162,6 +246,83 @@
 				]
 			}
 		},
+		"/users/me": {
+			"patch": {
+				"operationId": "UpdateMyInfoController",
+				"responses": {
+					"200": {
+						"description": "내 정보 수정 성공",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"result": {
+											"properties": {
+												"birth": {
+													"type": "string"
+												},
+												"phone": {
+													"type": "string"
+												},
+												"email": {
+													"type": "string"
+												},
+												"name": {
+													"type": "string"
+												},
+												"id": {
+													"type": "number",
+													"format": "double"
+												}
+											},
+											"required": [
+												"birth",
+												"phone",
+												"email",
+												"name",
+												"id"
+											],
+											"type": "object"
+										},
+										"message": {
+											"type": "string"
+										},
+										"code": {
+											"type": "string"
+										},
+										"isSuccess": {
+											"type": "boolean"
+										}
+									},
+									"required": [
+										"result",
+										"message",
+										"code",
+										"isSuccess"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"User"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateMyInfoDto"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/regions/{regionId}/stores": {
 			"post": {
 				"operationId": "CreateStore",
@@ -172,7 +333,35 @@
 							"application/json": {
 								"schema": {
 									"properties": {
-										"result": {},
+										"result": {
+											"properties": {
+												"regionId": {
+													"type": "number",
+													"format": "double"
+												},
+												"category": {
+													"type": "string"
+												},
+												"address": {
+													"type": "string"
+												},
+												"name": {
+													"type": "string"
+												},
+												"id": {
+													"type": "number",
+													"format": "double"
+												}
+											},
+											"required": [
+												"regionId",
+												"category",
+												"address",
+												"name",
+												"id"
+											],
+											"type": "object"
+										},
 										"message": {
 											"type": "string"
 										},
@@ -231,7 +420,37 @@
 							"application/json": {
 								"schema": {
 									"properties": {
-										"result": {},
+										"result": {
+											"properties": {
+												"storeId": {
+													"type": "number",
+													"format": "double"
+												},
+												"score": {
+													"type": "number",
+													"format": "double"
+												},
+												"content": {
+													"type": "string"
+												},
+												"userId": {
+													"type": "number",
+													"format": "double"
+												},
+												"id": {
+													"type": "number",
+													"format": "double"
+												}
+											},
+											"required": [
+												"storeId",
+												"score",
+												"content",
+												"userId",
+												"id"
+											],
+											"type": "object"
+										},
 										"message": {
 											"type": "string"
 										},
@@ -280,7 +499,40 @@
 							"application/json": {
 								"schema": {
 									"properties": {
-										"result": {},
+										"result": {
+											"items": {
+												"properties": {
+													"storeId": {
+														"type": "number",
+														"format": "double"
+													},
+													"score": {
+														"type": "number",
+														"format": "double"
+													},
+													"content": {
+														"type": "string"
+													},
+													"userId": {
+														"type": "number",
+														"format": "double"
+													},
+													"id": {
+														"type": "number",
+														"format": "double"
+													}
+												},
+												"required": [
+													"storeId",
+													"score",
+													"content",
+													"userId",
+													"id"
+												],
+												"type": "object"
+											},
+											"type": "array"
+										},
 										"message": {
 											"type": "string"
 										},
@@ -321,7 +573,26 @@
 							"application/json": {
 								"schema": {
 									"properties": {
-										"result": {},
+										"result": {
+											"items": {
+												"properties": {
+													"storeId": {
+														"type": "number",
+														"format": "double"
+													},
+													"id": {
+														"type": "number",
+														"format": "double"
+													}
+												},
+												"required": [
+													"storeId",
+													"id"
+												],
+												"type": "object"
+											},
+											"type": "array"
+										},
 										"message": {
 											"type": "string"
 										},

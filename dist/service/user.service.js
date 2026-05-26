@@ -1,5 +1,4 @@
 "use strict";
-// user.repository.ts
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -10,23 +9,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUser = exports.findUserById = void 0;
-const client_1 = require(".prisma/client");
-const prisma = new client_1.PrismaClient();
-const findUserById = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield prisma.user.findUnique({
-        where: {
-            id: userId,
-        },
-    });
+exports.updateMyInfo = void 0;
+const customError_1 = require("../errors/customError");
+const user_repository_1 = require("../repository/user.repository");
+const updateMyInfo = (userId, data) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield (0, user_repository_1.findUserById)(userId);
+    if (!user) {
+        throw new customError_1.CustomError(404, "USER_NOT_FOUND", "존재하지 않는 사용자입니다.");
+    }
+    return yield (0, user_repository_1.updateUser)(userId, data);
 });
-exports.findUserById = findUserById;
-const updateUser = (userId, data) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield prisma.user.update({
-        where: {
-            id: userId,
-        },
-        data,
-    });
-});
-exports.updateUser = updateUser;
+exports.updateMyInfo = updateMyInfo;

@@ -12,10 +12,9 @@ import {
 
 // ⭐ 미션 도전
 export const challengeMission = async (
+  userId: number,
   missionId: number
 ) => {
-  const userId = 1;
-
   const user = await findUserById(userId);
 
   if (!user) {
@@ -51,9 +50,7 @@ export const challengeMission = async (
 };
 
 // ⭐ 내가 진행 중인 미션 목록
-export const getMyInProgressMissions = async () => {
-  const userId = 1;
-
+export const getMyInProgressMissions = async (userId: number) => {
   const user = await findUserById(userId);
 
   if (!user) {
@@ -69,10 +66,9 @@ export const getMyInProgressMissions = async () => {
 
 // ⭐ 미션 완료 처리
 export const completeMission = async (
+  userId: number,
   missionId: number
 ) => {
-  const userId = 1;
-
   const user = await findUserById(userId);
 
   if (!user) {

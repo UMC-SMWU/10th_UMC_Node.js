@@ -14,13 +14,31 @@ const runtime_1 = require("@tsoa/runtime");
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const userMission_controller_1 = require("./../controller/userMission.controller");
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+const user_controller_1 = require("./../controller/user.controller");
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const store_controller_1 = require("./../controller/store.controller");
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const review_controller_1 = require("./../controller/review.controller");
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const mission_controller_1 = require("./../controller/mission.controller");
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-const models = {};
+const models = {
+    "Prisma.BatchPayload": {
+        "dataType": "refAlias",
+        "type": { "dataType": "nestedObjectLiteral", "nestedProperties": { "count": { "dataType": "double", "required": true } }, "validators": {} },
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "UpdateMyInfoDto": {
+        "dataType": "refObject",
+        "properties": {
+            "name": { "dataType": "string" },
+            "phone": { "dataType": "string" },
+            "birth": { "dataType": "string" },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+};
 const templateService = new runtime_1.ExpressTemplateService(models, { "noImplicitAdditionalProperties": "throw-on-extras", "bodyCoercion": true });
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 function RegisterRoutes(app) {
@@ -29,6 +47,7 @@ function RegisterRoutes(app) {
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
     const argsUserMissionController_challengeMissionController = {
+        req: { "in": "request", "name": "req", "required": true, "dataType": "object" },
         missionId: { "in": "path", "name": "missionId", "required": true, "dataType": "double" },
     };
     app.post('/missions/:missionId/challenge', ...((0, runtime_1.fetchMiddlewares)(userMission_controller_1.UserMissionController)), ...((0, runtime_1.fetchMiddlewares)(userMission_controller_1.UserMissionController.prototype.challengeMissionController)), function UserMissionController_challengeMissionController(request, response, next) {
@@ -53,7 +72,9 @@ function RegisterRoutes(app) {
         });
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    const argsUserMissionController_getMyInProgressMissionsController = {};
+    const argsUserMissionController_getMyInProgressMissionsController = {
+        req: { "in": "request", "name": "req", "required": true, "dataType": "object" },
+    };
     app.get('/missions/my/in-progress', ...((0, runtime_1.fetchMiddlewares)(userMission_controller_1.UserMissionController)), ...((0, runtime_1.fetchMiddlewares)(userMission_controller_1.UserMissionController.prototype.getMyInProgressMissionsController)), function UserMissionController_getMyInProgressMissionsController(request, response, next) {
         return __awaiter(this, void 0, void 0, function* () {
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -77,6 +98,7 @@ function RegisterRoutes(app) {
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     const argsUserMissionController_completeMissionController = {
+        req: { "in": "request", "name": "req", "required": true, "dataType": "object" },
         missionId: { "in": "path", "name": "missionId", "required": true, "dataType": "double" },
     };
     app.patch('/missions/:missionId/complete', ...((0, runtime_1.fetchMiddlewares)(userMission_controller_1.UserMissionController)), ...((0, runtime_1.fetchMiddlewares)(userMission_controller_1.UserMissionController.prototype.completeMissionController)), function UserMissionController_completeMissionController(request, response, next) {
@@ -88,6 +110,32 @@ function RegisterRoutes(app) {
                 const controller = new userMission_controller_1.UserMissionController();
                 yield templateService.apiHandler({
                     methodName: 'completeMissionController',
+                    controller,
+                    response,
+                    next,
+                    validatedArgs,
+                    successStatus: 200,
+                });
+            }
+            catch (err) {
+                return next(err);
+            }
+        });
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    const argsUserController_updateMyInfoController = {
+        req: { "in": "request", "name": "req", "required": true, "dataType": "object" },
+        body: { "in": "body", "name": "body", "required": true, "ref": "UpdateMyInfoDto" },
+    };
+    app.patch('/users/me', ...((0, runtime_1.fetchMiddlewares)(user_controller_1.UserController)), ...((0, runtime_1.fetchMiddlewares)(user_controller_1.UserController.prototype.updateMyInfoController)), function UserController_updateMyInfoController(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+            let validatedArgs = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsUserController_updateMyInfoController, request, response });
+                const controller = new user_controller_1.UserController();
+                yield templateService.apiHandler({
+                    methodName: 'updateMyInfoController',
                     controller,
                     response,
                     next,
@@ -128,6 +176,7 @@ function RegisterRoutes(app) {
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     const argsReviewController_createReviewController = {
+        req: { "in": "request", "name": "req", "required": true, "dataType": "object" },
         body: { "in": "body", "name": "body", "required": true, "dataType": "any" },
     };
     app.post('/reviews', ...((0, runtime_1.fetchMiddlewares)(review_controller_1.ReviewController)), ...((0, runtime_1.fetchMiddlewares)(review_controller_1.ReviewController.prototype.createReviewController)), function ReviewController_createReviewController(request, response, next) {
@@ -152,7 +201,9 @@ function RegisterRoutes(app) {
         });
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    const argsReviewController_getMyReviewsController = {};
+    const argsReviewController_getMyReviewsController = {
+        req: { "in": "request", "name": "req", "required": true, "dataType": "object" },
+    };
     app.get('/reviews/my', ...((0, runtime_1.fetchMiddlewares)(review_controller_1.ReviewController)), ...((0, runtime_1.fetchMiddlewares)(review_controller_1.ReviewController.prototype.getMyReviewsController)), function ReviewController_getMyReviewsController(request, response, next) {
         return __awaiter(this, void 0, void 0, function* () {
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

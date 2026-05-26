@@ -1,5 +1,4 @@
 "use strict";
-// review.controller.ts
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -19,56 +18,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ReviewController = void 0;
+exports.UserController = void 0;
 const tsoa_1 = require("tsoa");
 const customError_1 = require("../errors/customError");
 const auth_middleware_1 = require("../middleware/auth.middleware");
-const review_service_1 = require("../service/review.service");
-let ReviewController = class ReviewController {
-    /**
-     * 리뷰 생성 API
-     */
-    createReviewController(req, body) {
+const user_service_1 = require("../service/user.service");
+let UserController = class UserController {
+    updateMyInfoController(req, body) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const result = yield (0, review_service_1.createReview)(req.user.id, body);
-                return {
-                    isSuccess: true,
-                    code: "COMMON201",
-                    message: "리뷰 생성 성공",
-                    result: result,
-                };
-            }
-            catch (error) {
-                if (error instanceof customError_1.CustomError) {
-                    return {
-                        isSuccess: false,
-                        code: error.code,
-                        message: error.message,
-                        result: null,
-                    };
-                }
-                return {
-                    isSuccess: false,
-                    code: "COMMON500",
-                    message: "서버 에러가 발생했습니다.",
-                    result: null,
-                };
-            }
-        });
-    }
-    /**
-     * 내가 작성한 리뷰 목록 조회 API
-     */
-    getMyReviewsController(req) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const reviews = yield (0, review_service_1.getMyReviews)(req.user.id);
+                const userId = req.user.id;
+                const result = yield (0, user_service_1.updateMyInfo)(userId, body);
                 return {
                     isSuccess: true,
                     code: "COMMON200",
-                    message: "내 리뷰 목록 조회 성공",
-                    result: reviews,
+                    message: "내 정보 수정 성공",
+                    result,
                 };
             }
             catch (error) {
@@ -90,26 +55,18 @@ let ReviewController = class ReviewController {
         });
     }
 };
-exports.ReviewController = ReviewController;
+exports.UserController = UserController;
 __decorate([
     (0, tsoa_1.Middlewares)(auth_middleware_1.isLogin),
-    (0, tsoa_1.Post)("/"),
-    (0, tsoa_1.SuccessResponse)("201", "리뷰 생성 성공"),
-    (0, tsoa_1.Response)("400", "잘못된 요청"),
-    (0, tsoa_1.Response)("404", "가게를 찾을 수 없음"),
+    (0, tsoa_1.Patch)("me"),
+    (0, tsoa_1.SuccessResponse)("200", "내 정보 수정 성공"),
+    (0, tsoa_1.Response)("401", "로그인 필요"),
+    (0, tsoa_1.Response)("404", "사용자를 찾을 수 없음"),
     (0, tsoa_1.Response)("500", "서버 에러"),
     __param(0, (0, tsoa_1.Request)()),
     __param(1, (0, tsoa_1.Body)())
-], ReviewController.prototype, "createReviewController", null);
-__decorate([
-    (0, tsoa_1.Middlewares)(auth_middleware_1.isLogin),
-    (0, tsoa_1.Get)("/my"),
-    (0, tsoa_1.SuccessResponse)("200", "내 리뷰 목록 조회 성공"),
-    (0, tsoa_1.Response)("404", "리뷰를 찾을 수 없음"),
-    (0, tsoa_1.Response)("500", "서버 에러"),
-    __param(0, (0, tsoa_1.Request)())
-], ReviewController.prototype, "getMyReviewsController", null);
-exports.ReviewController = ReviewController = __decorate([
-    (0, tsoa_1.Route)("reviews"),
-    (0, tsoa_1.Tags)("Review")
-], ReviewController);
+], UserController.prototype, "updateMyInfoController", null);
+exports.UserController = UserController = __decorate([
+    (0, tsoa_1.Route)("users"),
+    (0, tsoa_1.Tags)("User")
+], UserController);

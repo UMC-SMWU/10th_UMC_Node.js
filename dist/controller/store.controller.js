@@ -22,6 +22,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.StoreController = void 0;
 const tsoa_1 = require("tsoa");
 const customError_1 = require("../errors/customError");
+const auth_middleware_1 = require("../middleware/auth.middleware");
 const store_service_1 = require("../service/store.service");
 let StoreController = class StoreController {
     /**
@@ -59,6 +60,7 @@ let StoreController = class StoreController {
 };
 exports.StoreController = StoreController;
 __decorate([
+    (0, tsoa_1.Middlewares)(auth_middleware_1.isLogin),
     (0, tsoa_1.Post)("{regionId}/stores"),
     (0, tsoa_1.SuccessResponse)("201", "가게 생성 성공"),
     (0, tsoa_1.Response)("400", "잘못된 요청"),

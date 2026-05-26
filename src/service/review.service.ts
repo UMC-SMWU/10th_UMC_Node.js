@@ -11,10 +11,9 @@ import {
 
 // ⭐ 리뷰 생성
 export const createReview = async (
+  userId: number,
   data: CreateReviewDto
 ) => {
-  const userId = 1;
-
   const user = await findUserById(userId);
 
   if (!user) {
@@ -39,9 +38,7 @@ export const createReview = async (
 };
 
 // ⭐ 내가 작성한 리뷰 목록
-export const getMyReviews = async () => {
-  const userId = 1;
-
+export const getMyReviews = async (userId: number) => {
   const user = await findUserById(userId);
 
   if (!user) {

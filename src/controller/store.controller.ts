@@ -4,6 +4,7 @@ import {
   Route,
   Tags,
   Post,
+  Middlewares,
   Path,
   Body,
   SuccessResponse,
@@ -11,6 +12,7 @@ import {
 } from "tsoa";
 
 import { CustomError } from "../errors/customError";
+import { isLogin } from "../middleware/auth.middleware";
 import { createStore as createStoreService } from "../service/store.service";
 
 @Route("regions")
@@ -19,6 +21,7 @@ export class StoreController {
   /**
    * 가게 생성 API
    */
+  @Middlewares(isLogin)
   @Post("{regionId}/stores")
   @SuccessResponse("201", "가게 생성 성공")
   @TsoaResponse("400", "잘못된 요청")

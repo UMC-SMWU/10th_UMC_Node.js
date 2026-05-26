@@ -9,6 +9,10 @@ datasource db {
 
 model User {
   id           Int           @id @default(autoincrement())
+  email        String?       @unique
+  name         String?
+  phone        String?
+  birth        String?
   reviews      Review[]
   userMissions UserMission[]
 }
